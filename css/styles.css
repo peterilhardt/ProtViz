@@ -1,0 +1,37 @@
+#proteinViewer {
+    position: relative;
+    float: left;
+    height: calc(95vh - 60px); 
+    width: 72vw;
+    margin-top: 60px;
+    margin-left: -5px;
+}
+
+.msp-plugin ::-webkit-scrollbar-thumb {
+    background-color: #474748 !important;
+}
+
+#proteinSearchButton {
+    display: block;
+    margin: 0 auto;
+}
+
+.sidebar {
+    padding-right: 0px;
+}
+
+.customLabel {
+    margin-bottom: 10px;
+}
+
+.legend line{
+    stroke: white;
+}
+
+.legend path{
+    stroke: white;
+}
+
+.legend text{
+    stroke: white;
+}

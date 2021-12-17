@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ProtViz</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- LiteMol Plugin -->
+    <link href="css/LiteMol-plugin.min.css" rel="stylesheet" type="text/css">
+    <script src="js/LiteMol-plugin.min.js" type="text/javascript"></script>
+
+    <!-- D3 -->
+    <script src="https://d3js.org/d3.v7.min.js" type="text/javascript"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v3.min.js" type="text/javascript"></script>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+</head>
+
+<body onload='init()'>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 d-md-block p-3 text-white bg-dark sidebar">
+                <span class="fs-1">ProtViz</span>
+                <hr><br>
+                <form id="proteinSearch" method="post">
+                    <div class="form-group">
+                        <label for="protein" class="customLabel"><strong>Protein</strong></label>
+                        <br>
+                        <input class="form-control" type="text" id="protein" placeholder="Enter protein such as 'Q8W3K0'" aria-describedby="proteinHelp" required>
+                        <small id="proteinHelp" class="form-text">Search for a protein by UniProt accession number.</small>
+                    </div>
+                    <br><br>
+                    <button type="submit" class="btn btn-primary" id="proteinSearchButton">Search</button>
+                </form>
+                <br><br>
+                <label for="residue" class="customLabel" id="residueLabel"><strong>Amino Acid-Level Properties</strong></label>
+                <select class="form-select" id="residue">
+                    <option value="default" selected>Select property</option>
+                    <option value="Sequence">Sequence</option>
+                    <option value="VSL2B_disorder_binary">Disordered Regions</option>
+                    <option value="VSL2B_disorder_propensity">Disordered Score</option>
+                    <option value="ASAquick_SolventAccessibility_binary">Buried Regions</option>
+                    <option value="ASAquick_SolventAccessibility_propensity">Solvent Accessibility</option>
+                    <option value="PSIPRED_secondary_structure">Secondary Structure</option>
+                    <option value="DisoRDPbind_Proteinbinding_binary">Protein Binding Regions (DisoRDPbind)</option>
+                    <option value="DisoRDPbind_Proteinbinding_propensity">Protein Binding Score (DisoRDPbind)</option>
+                    <option value="SCRIBER_binary">Protein Binding Regions (SCRIBER)</option>
+                    <option value="SCRIBER_Proteinbinding_propensity">Protein Binding Score (SCRIBER)</option>
+                    <option value="MoRFchibi_MoRF_binary">Molecular Recognition Feature Regions (MoRFchibi)</option>
+                    <option value="MoRFchibi_MoRF_propensity">Molecular Recognition Feature Score (MoRFchibi)</option>
+                    <option value="DisoRDPbind_DNAbinding_binary">DNA Binding Regions (DisoRDPbind)</option>
+                    <option value="DisoRDPbind_DNAbinding_propensity">DNA Binding Score (DisoRDPbind)</option>
+                    <option value="DRNApred_DNAbinding_binary">DNA Binding Regions (DRNApred)</option>
+                    <option value="DRNApred_DNAbinding_propensity">DNA Binding Score (DRNApred)</option>
+                    <option value="DisoRDPbind_RNAbinding_binary">RNA Binding Regions (DisoRDPbind)</option>
+                    <option value="DisoRDPbind_RNAbinding_propensity">RNA Binding Score (DisoRDPbind)</option>
+                    <option value="DRNApred_RNAbinding_binary">RNA Binding Regions (DRNApred)</option>
+                    <option value="DRNApred_RNAbinding_propensity">RNA Binding Score (DRNApred)</option>
+                    <option value="SignalP_binary">Signal Peptide Regions</option>
+                    <option value="SignalP_propensity">Signal Peptide Score</option>
+                    <option value="MMseqs2_conservation_decile">Conservation Level</option>
+                    <option value="MMseqs2_conservation_propensity">Conservation Score</option>
+                    <option value="DFLpred_linker_binary">Linker Residue Regions</option>
+                    <option value="DFLpred_linker_propensity">Linker Score</option>
+                </select>
+                <br><br>
+                <label for="colormap" class="customLabel" id="colormapLabel"><strong>Colormap</strong></label>
+                <select class="form-select" id="colormap">
+                    <option value="Viridis" selected>Viridis</option>
+                    <option value="Category10">Category 10</option>
+                    <option value="Accent">Accent</option>
+                    <option value="Dark2">Dark 2</option>
+                    <option value="Paired">Paired</option>
+                    <option value="Pastel1">Pastel 1</option>
+                    <option value="Pastel2">Pastel 2</option>
+                    <option value="Set1">Set 1</option>
+                    <option value="Set2">Set 2</option>
+                    <option value="Set3">Set 3</option>
+                    <option value="Tableau10">Tableau 10</option>
+                    <option value="Blues">Blues</option>
+                    <option value="Greens">Greens</option>
+                    <option value="Greys">Greys</option>
+                    <option value="Oranges">Oranges</option>
+                    <option value="Purples">Purples</option>
+                    <option value="Reds">Reds</option>
+                    <option value="Turbo">Turbo</option>
+                    <option value="Inferno">Inferno</option>
+                    <option value="Magma">Magma</option>
+                    <option value="Plasma">Plasma</option>
+                    <option value="Cividis">Cividis</option>
+                    <option value="Warm">Warm</option>
+                    <option value="Cool">Cool</option>
+                    <option value="Rainbow">Rainbow</option>
+                    <option value="Sinebow">Sinebow</option>
+                </select>
+            </div>
+
+            <main class="col-md-9 ms-sm-auto col-lg-9 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <div class="viewerSection">
+                        <!-- LiteMol object -->
+                        <div id="proteinViewer"></div>
+                        <div id="legend"></div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+</body>
+
+<script src="js/LoadProtein.js" type="text/javascript"></script>
+<script src="js/CustomTheme.js" type="text/javascript"></script>
+<script src="js/Colormaps.js" type="text/javascript"></script>
+<script src="js/UpdateColors.js" type="text/javascript"></script>
+<script src="js/ColorLegends.js" type="text/javascript"></script>
+
+<script>
+    function init() {
+        document.getElementById('residue').style.display = 'none';
+        document.getElementById('colormap').style.display = 'none';
+        document.getElementById('residueLabel').style.display = 'none';
+        document.getElementById('colormapLabel').style.display = 'none';
+    };
+</script>
+
+</html>
