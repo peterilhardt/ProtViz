@@ -47,7 +47,14 @@ proteinSearch.addEventListener('submit', function(event) {
     document.getElementById('residueLabel').style.display = 'block';
     residueSelect.style.display = 'block';
     residueSelect.value = 'default';
+    
+    // remove any legend elements from previous visualization
+    const legend = document.getElementById('legend');
+    while (legend.firstChild) {
+        legend.removeChild(legend.firstChild);
+    };
 
+    // hide the colormap selector and label
     document.getElementById('colormap').style.display = 'none';
     document.getElementById('colormapLabel').style.display = 'none';
 

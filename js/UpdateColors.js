@@ -149,6 +149,7 @@ d3.select("#residue").on("change", function(d) {
         document.getElementById('colormapLabel').style.display = 'block';
         color_protein(selected_option, colormap);
     } else {
+        // hide the colormap selector and label
         colormapSelect.style.display = 'none';
         document.getElementById('colormapLabel').style.display = 'none';
     };
